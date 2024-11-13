@@ -1,11 +1,16 @@
 package com.project.serviceimplements;
 
+import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.Customer_dto;
+import com.project.exception.Mycustomexception;
 import com.project.models.Customer_Model;
 import com.project.repository.CustomerRepository;
 import com.project.service.Customer_Service;
@@ -21,43 +26,89 @@ public class Customer_Serviceimpl implements Customer_Service {
 		private CustomerRepository repo;
 		
 		@Override
-		public Customer_dto cust_to_dto(Customer_Model customer) {
+		public ResponseEntity<Customer_dto> cust_to_dto(Customer_Model customer) {
 			
 			Customer_dto dto=new Customer_dto();
 			dto.setCid(customer.getCid());
 			dto.setCname(customer.getCname());
 			
-			return dto;
+			return new ResponseEntity<>(dto, HttpStatus.OK);
 		}
 		
+		
+		
+		
 		@Override
-		public Customer_dto Register(Customer_Model customer) {
+		public ResponseEntity<Customer_dto> Register(Customer_Model customer) {
+			
+			Customer_Model obj=new Customer_Model();
+		    String cnumber = customer.getCnumber();
+
+			if(cnumber.length()<10) {
+				throw new Mycustomexception("Phone number should contain 10 digits");
+			}
+		    String cadharno = customer.getCadharno();
+
+			if(cadharno.length()<12) {
+				throw new Mycustomexception("Adhar number should contain 12 digits");
+			}
 			
 			repo.save(customer);
 			
 			return cust_to_dto(customer);
 		}
+		
+		
+		
 		@Override
-		public String Delete(Long cid) {
-			
-			repo.deleteById(cid);
-			return "Customer Deleted succesfully";
-		}
-		@Override
-		public Customer_Model Update(Long cid,Customer_Model model) {
-			
-			Optional<Customer_Model> opt= repo.findById(cid);
-			Customer_Model mod=new Customer_Model();
-			
-			if(opt.isPresent()) {
-			
-			mod.setCname(model.getCname());
-			mod.setCnumber(model.getCnumber());
-			mod.setCadharno(model.getCadharno());
+		public ResponseEntity<String> Delete(Long cid) {
+			if(repo.existsById(cid)) {
+				repo.deleteById(cid);
+				return new ResponseEntity<>("Customer deleted succesfully",HttpStatus.OK);
 			}
-			return mod;
+			else {
+				throw new Mycustomexception("Customer with "+cid + " is not present");
+			}
 			
 			
+		}
+		
+		
+		@Override
+		public ResponseEntity<Customer_Model> Update(Long cid,Customer_Model model) {
+			
+			 Optional<Customer_Model> opt = repo.findById(cid);
+		        
+		        if (opt.isPresent()) {
+		            Customer_Model existingCustomer = opt.get();
+		            existingCustomer.setCname(model.getCname());
+		            existingCustomer.setCnumber(model.getCnumber());
+		            existingCustomer.setCadharno(model.getCadharno());
+		            
+		            Customer_Model updatedCustomer = repo.save(existingCustomer);
+		            return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+		        } else {
+		            throw new Mycustomexception("Customer with ID " + cid + " not found");
+		        }
+			
+		}
+		
+		public ResponseEntity<Customer_Model> Getcustomer(long cid){
+			Optional<Customer_Model> obj=repo.findById(cid);
+//			Customer_Model mod=obj.get();
+			if(obj.isPresent()) {
+//				Customer_Model obj1=new Customer_Model();
+				return new ResponseEntity<>(obj.get(),HttpStatus.OK);
+			}
+			else {
+				throw new Mycustomexception("Cid is not present");
+			}
+		}
+		
+		
+		public ResponseEntity<List<Customer_Model>> getcustomers(){
+			List<Customer_Model> obj=repo.findAll();
+			return new ResponseEntity<>(obj,HttpStatus.OK);
 		}
 		
 		

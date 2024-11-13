@@ -1,9 +1,11 @@
 package com.project.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,13 +27,13 @@ public class Customer_Controller {
 	private Customer_Service service;
 	
 	@PostMapping("/Register")
-	public Customer_dto RegisterUser(@RequestBody Customer_Model customer) {
+	public ResponseEntity<Customer_dto> RegisterUser(@RequestBody Customer_Model customer) {
 		return service.Register(customer);
 	}
 	
 	
 	@DeleteMapping("/delete/{id}")
-	public String Deleting(@PathParam(value = "id") Long cid) {
+	public ResponseEntity<String> Deleting(@PathParam(value = "id") Long cid) {
 		return service.Delete(cid);
 	}
 	
@@ -42,6 +44,15 @@ public class Customer_Controller {
 		return "Updated succesfully";
 	}
 	
+	@GetMapping("/getall")
+	public ResponseEntity<List<Customer_Model>> getallcustomers(){
+		return service.getcustomers();
+	}
+	
+	@GetMapping("/get/{cid}")
+	public ResponseEntity<Customer_Model> Getcustomer(@PathVariable  Long cid){
+		return service.Getcustomer(cid);
+	}
 	
 	
 }
