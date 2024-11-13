@@ -23,9 +23,9 @@ public class Admin_Controller {
 	@Autowired
 	private Admin_Service admin_Service;
 	
-	@GetMapping("/{cid}")
-	public Admin_Model getall(@PathParam(value="cid") Long cid) {
-		return admin_Service.getAll(cid);
+	@GetMapping("/getroombill/{cid}")
+	public Double get(@PathParam(value="cid") Long cid) {
+		return admin_Service.getRoomBill(cid);
 	}
 	
 	

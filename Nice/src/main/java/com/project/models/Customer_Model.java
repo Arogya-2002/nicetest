@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Size;
 //import jakarta.persistence.UniqueConstraint;
 
 @Entity
@@ -23,11 +24,13 @@ public class Customer_Model {
 	
 	private String cname;
 	
+	@Size(min = 10, max = 10, message = "Phone number must be exactly 10 digits")
 	@Column(unique = true)
-	private Long cnumber;
+	private String cnumber;
 	
+	 @Size(min = 12, max = 12, message = "Adhar number must be exactly 12 digits")
 	@Column(unique = true)
-	private Long cadharno;
+	private String cadharno;
 	
 	@ManyToOne(cascade =CascadeType.ALL)
 	private Admin_Model admin_Model;
@@ -35,7 +38,7 @@ public class Customer_Model {
 	@ManyToMany(mappedBy = "customer_Model")
 	private List<Hotel_Model> hotel_Model;
 
-	public Customer_Model(Long cid, String cname, Long cnumber, Long cadharno) {
+	public Customer_Model(Long cid, String cname, String cnumber, String cadharno) {
 		super();
 		this.cid = cid;
 		this.cname = cname;
@@ -64,19 +67,19 @@ public class Customer_Model {
 		this.cname = cname;
 	}
 
-	public Long getCnumber() {
+	public String getCnumber() {
 		return cnumber;
 	}
 
-	public void setCnumber(Long cnumber) {
+	public void setCnumber(String cnumber) {
 		this.cnumber = cnumber;
 	}
 
-	public Long getCadharno() {
+	public String getCadharno() {
 		return cadharno;
 	}
 
-	public void setCadharno(Long cadharno) {
+	public void setCadharno(String cadharno) {
 		this.cadharno = cadharno;
 	}
 	

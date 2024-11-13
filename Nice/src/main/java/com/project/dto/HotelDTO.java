@@ -1,10 +1,9 @@
 package com.project.dto;
-
 public class HotelDTO {
-
+	 
 	private Long hotelId;
 	private String hotelName;
-	private String address;
+	private String hotelAddress;
 	public Long getHotelId() {
 		return hotelId;
 	}
@@ -18,12 +17,12 @@ public class HotelDTO {
 		this.hotelName = hotelName;
 	}
 	public String getAddress() {
-		return address;
+		return hotelAddress;
 	}
 	public void setAddress(String address) {
-		this.address = address;
+		this.hotelAddress = address;
 	}
-
+ 
 	public HotelDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -34,7 +33,6 @@ public class HotelDTO {
 		super();
 		this.hotelId = hotelId;
 		this.hotelName = hotelName;
-		this.address= address;
+		this.hotelAddress= address;
 	}
-	
 }

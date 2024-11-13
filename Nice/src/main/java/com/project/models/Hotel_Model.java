@@ -6,103 +6,109 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-
+ 
 @Entity
 public class Hotel_Model {
 	@Id
-	private Long cid;
+	private Long hotelid;
+	private String hotelname;
+	private String hotelAddress;
+	private String hoteltype;
+	private Double costperDay;
 	
-	private String hname;
-	
-	private String hAddress;
-	
-	private String type;
-	
-	private int days;
-	
-	
-	private long cost;
+	private Integer roomBill;
+	private Double foodBill;
 
+ 
 	@ManyToMany
 	private List<Customer_Model> customer_Model;
-	
 	@ManyToOne
 	private Admin_Model admin_Model;
-	
-	
+
 	public Hotel_Model() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	public Hotel_Model(Long cid,String hname,String hAdress, String type, int days, long cost) {
+ 
+ 
+	public Hotel_Model(Long hotelid, String hotelname, String hotelAddress, String hoteltype, Double costperDay) {
 		super();
-		this.cid = cid;
-		this.hname=hname;
-		this.hAddress=hAdress;
-		this.type = type;
-		this.days = days;
-		this.cost = cost;
+		this.hotelid = hotelid;
+		this.hotelname = hotelname;
+		this.hotelAddress = hotelAddress;
+		this.hoteltype = hoteltype;
+		this.costperDay = costperDay;
 	}
-
-	public Long getCid() {
-		return cid;
+ 
+ 
+	public Long getHotelid() {
+		return hotelid;
 	}
-
-
-	public void setCid(Long cid) {
-		this.cid = cid;
+ 
+ 
+	public void setHotelid(Long hotelid) {
+		this.hotelid = hotelid;
 	}
-
-
-	public String getType() {
-		return type;
+ 
+ 
+	public String getHotelname() {
+		return hotelname;
 	}
-
-
-	public void setType(String type) {
-		this.type = type;
+ 
+ 
+	public void setHotelname(String hotelname) {
+		this.hotelname = hotelname;
 	}
-
-
-	public int getDays() {
-		return days;
+ 
+ 
+	public String getHotelAddress() {
+		return hotelAddress;
 	}
-
-
-	public void setDays(int days) {
-		this.days = days;
+ 
+ 
+	public void setHotelAddress(String hotelAddress) {
+		this.hotelAddress = hotelAddress;
 	}
-
-
-	public long getCost() {
-		return cost;
+ 
+ 
+	public String getHoteltype() {
+		return hoteltype;
 	}
-
-
-	public void setCost(long cost) {
-		this.cost = cost;
+ 
+ 
+	public void setHoteltype(String hoteltype) {
+		this.hoteltype = hoteltype;
 	}
-
-
-	public String getHname() {
-		return hname;
+ 
+ 
+	public Double getCostperDay() {
+		return costperDay;
 	}
-
-
-	public void setHname(String hname) {
-		this.hname = hname;
-	}
-
-
-	public String gethAddress() {
-		return hAddress;
+ 
+ 
+	public void setCostperDay(Double costperDay) {
+		this.costperDay = costperDay;
 	}
 
 
-	public void sethAddress(String hAddress) {
-		this.hAddress = hAddress;
+	public Double getFoodBil() {
+		return foodBill;
 	}
 
+
+	public void setFoodBil(Double foodBil) {
+		this.foodBill = foodBil;
+	}
+
+
+	public Integer getRoomBill() {
+		return roomBill;
+	}
+
+
+	public void setRoomBill(Integer price) {
+		this.roomBill = price;
+	}
+ 
+ 
 }

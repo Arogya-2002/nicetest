@@ -4,5 +4,5 @@ import com.project.models.Admin_Model;
 
 public interface Admin_Service {
 
-	public Admin_Model getAll(Long cid);
+	public  Double getRoomBill(Long cid);
 }
