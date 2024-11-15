@@ -63,20 +63,26 @@ public class HotelServiceImpl implements Hotel_Service {
 
     @Override
     public ResponseEntity<ApiResponse<Hotel_Model>> addHotel(HotelDTO hoteldto) {
-    	
-        boolean savedHotel = hotel_Repository.existsById(hoteldto.getHotelId());
-        if(savedHotel==false)
-        {
-          Hotel_Model addhotel = new Hotel_Model(hoteldto.getHotelId(), hoteldto.getHotelName(), hoteldto.getAddress());
-          ApiResponse<Hotel_Model> response = new ApiResponse<>( HttpStatus.CREATED.value(),"Hotel added successfully", addhotel);
+
+        // Check if the hotel with the given ID already exists
+        boolean hotelExists = hotel_Repository.existsById(hoteldto.getHotelId());
         
-         return new ResponseEntity<>(response, HttpStatus.CREATED);
-        }
-        else
-        {
-        	 throw new Mycustomexception("Hotel with ID " + hoteldto.getHotelId() + "already exist", HttpStatus.CONFLICT);
+        if (!hotelExists) {
+            // Convert DTO to entity
+            Hotel_Model newHotel = new Hotel_Model(hoteldto.getHotelId(), hoteldto.getHotelName(), hoteldto.getAddress());
+
+            // Save the new hotel entity to the repository
+            hotel_Repository.save(newHotel);
+
+            // Prepare the response
+            ApiResponse<Hotel_Model> response = new ApiResponse<>(HttpStatus.CREATED.value(), "Hotel added successfully", newHotel);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } else {
+            // Throw an exception if the hotel already exists
+            throw new Mycustomexception("Hotel with ID " + hoteldto.getHotelId() + " already exists", HttpStatus.CONFLICT);
         }
     }
+
 
     @Override
     public ResponseEntity<ApiResponse<String>> removeHotel(Long hotelid) {
